@@ -7,11 +7,11 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 )
 
 type Block struct {
@@ -25,7 +25,7 @@ type Block struct {
 var Blockchain []Block
 
 func calculateHash(block Block) string {
-	record := string(block.Index) + block.Timestamp + string(block.BPM) + block.PrevHash
+	record := string(block.Index) + block.Timestamp + strconv.Itoa(block.BPM) + block.PrevHash
 	h := sha256.New()
 	h.Write([]byte(record))
 	hashed := h.Sum(nil)
@@ -70,10 +70,10 @@ func replaceChain(newBlocks []Block) {
 
 func run() error {
 	mux := makeMuxRouter()
-	httpAddr := 8080
-	log.Printf("Listening on port %v", 8080)
+	httpPort := 8080
+	log.Printf("Listening on port %v", httpPort)
 	s := &http.Server{
-		Addr:           ":" + string(httpAddr),
+		Addr:           ":" + strconv.Itoa(httpPort),
 		Handler:        mux,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
@@ -143,11 +143,6 @@ func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload i
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	go func() {
 		t := time.Now()
 		genesisBlock := Block{0, t.String(), 0, "", ""}
