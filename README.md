@@ -1,5 +1,5 @@
-# my-first-blockchain
-Simplified blockchain implementation in Go
+# hello-blockchain
+Simplified blockchain implementations in Go, for learning purposes.
 
 Based on [Coral Health](https://medium.com/@mycoralhealth)'s series of Medium posts:
 1. [Simple blockchain](https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc)
